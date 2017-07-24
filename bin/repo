@@ -1,0 +1,40 @@
+#! /usr/bin/env node
+
+'use strict';
+
+const fs = require('fs');
+const path = require('path');
+const argv = require('yargs').options({
+  boot: {
+    default: true,
+    type: 'boolean'
+  },
+}).argv;
+const chalk = require('chalk');
+const commander = require('./lib/commander');
+
+const opts = { cwd: path.normalize(process.cwd()) };
+const args = argv._;
+
+const flags = Object.keys(argv)
+  .filter(key => key !== '_')
+  .filter(key => key.indexOf('$') !== 0)
+  .reduce((f, key) => {
+    f[key] = argv[key];
+    return f;
+  }, {});
+
+function handleDone (err) {
+  if (err) {
+    console.error(`${chalk.red('error')} ${err.message}`);
+    process.exit(1);
+  }
+}
+
+if (!fs.existsSync(opts.cwd + '/config.json')) {
+  handleDone(`Unable to detect config.json`);
+}
+
+const config = JSON.parse(fs.readFileSync(opts.cwd + '/config.json', 'utf8'));
+
+commander(config, args, flags, opts, handleDone);

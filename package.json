@@ -1,0 +1,20 @@
+{
+  "name": "monorepo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "repo": "./bin/repo",
+    "boot": "./bin/repo boot",
+    "publish": "./bin/repo publish",
+    "each": "./bin/repo run"
+  },
+  "dependencies": {
+    "glob": "^7.1.2",
+    "semver": "^5.3.0",
+    "async": "^2.5.0",
+    "chalk": "^2.0.1",
+    "inquirer": "^3.2.0",
+    "yargs": "^8.0.2"
+  }
+}
