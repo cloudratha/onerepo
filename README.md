@@ -43,6 +43,7 @@ Setup the initial packages with their files and include in their `package.json` 
   "private": true
   ...
 }
+```
 
 This will allow for the correct use of scoping the project.
 
