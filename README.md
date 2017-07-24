@@ -14,7 +14,7 @@ Node >= 6.4.0
 Install as a global node dependency from git (instead of NPM).
 
 ```bash
-npm install git://github.com/pokelondon/onerepo.git
+npm install -g git+ssh://git@github.com:pokelondon/onerepo.git
 ```
 
 ### Usage
@@ -118,14 +118,14 @@ npm run repo [args]
 Recursively runs through all the packages and installs all the package dependencies.
 Safe to run at any stage during development.
 ```bash
-./bin/repo boot --[flags]
+repo boot --[flags]
 ```
 
 ### Run
 
 Recursively runs through each package and executes npm scripts.
 ```bash
-./bin/repo run [command] --[flags]
+repo run [command] --[flags]
 ```
 
 ### Publish
@@ -133,7 +133,7 @@ Recursively runs through each package and executes npm scripts.
 Recursively run through each package to upgrade versions, git tag, and publish to NPM.
 By default it will attempt to publish all packages, pass through the `scope` flag to target a specific package.
 ```bash
-./bin/repo publish --[flags]
+repo publish --[flags]
 ```
 
 ## Flags
@@ -151,7 +151,7 @@ Will run the command in context of the specific package.
 
 When publishing you can add the flag to prevent re-booting the packages.
 ```bash
-./bin/repo publish --no-boot
+repo publish --no-boot
 ```
 
 ### Verbose
