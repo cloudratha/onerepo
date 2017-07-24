@@ -36,24 +36,19 @@ Create a `config.json` file in the root of the repo.
 `packages` are the working directorys for your packages scoped from the root.
 `scope` is the npm user who the packages are published under. You will need to be authenticated with this user when publishing.
 
-Setup the initial packages with their files and include in their `package.json` if they are private.
-```js
-{
-  ...
-  "private": true
-  ...
-}
-```
+Setup the initial packages with their files and include in their `package.json`.
+Make sure to include the [scope](https://docs.npmjs.com/misc/scope) in the package name. 
 
-This will allow for the correct use of scoping the project.
+`repo boot` will allow for the correct use of scoping the project, and can be run at anytime during development.
 
-You will be unable to publish successfully without first committing the changes as it will attempt to publish new tags.
+You will be unable to publish successfully without first committing the changes, as it will attempt to publish new tags.
 
 ## Package Dependencies
 
 Onerepo will handle collecting the correct dependencies for your packages.
 It will either fetch from npm, clone, or symlink packages that require other packages, based on the dependency version.
 
+Onerepo will not do any smart linking on DevDependencies, so if a package is a dependency in another it should be a normal dependency.
 
 If the version is tracking the latest release prefix'd with a caret (^), the package will be symlinked.
 This allows you to continue in development without needing to publish each change.

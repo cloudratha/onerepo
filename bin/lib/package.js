@@ -42,11 +42,21 @@ module.exports = class Package {
 
     return false;
   }
+  getDevDependencies() {
+    if (this.hasDevDependencies()) {
+      return this.package.json.devDependencies;      
+    }
+
+    return false;
+  }
   isPrivate() {
     return (this.getName().indexOf('@') !== -1);
   }
   hasDependencies() {
     return (this.package.json.dependencies);
+  }
+  hasDevDependencies() {
+    return (this.package.json.devDependencies);
   }
   hasDependant(name) {
     if (this.hasDependencies()) {

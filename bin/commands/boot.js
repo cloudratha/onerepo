@@ -26,20 +26,30 @@ module.exports = function boot (config, args, flags, opts, cb) {
 
     // Check local Package dependencies if we should do some clever linking
     const dependents = module.getDependencies();
-    if (dependents) {
+    const devDependents = module.getDevDependencies();
+    if (dependents || devDependents) {
       // Create Temp Package.json for installable packages
       fs.renameSync( 'package.json', 'package.json.backup')
 
-      const tempJson = {
-        dependencies: Object.keys(dependents).reduce((deps, dep) => {
-          if (!config.packages[dep]) {
-            const version = dependents[dep];          
-            deps[dep] = version || "*";
-          }
-          
-          return deps;
-        }, {})
-      };
+      const tempFactory = function(dependents, type) {
+        return {
+            [type]: Object.keys(dependents).reduce((deps, dep) => {
+            if (!config.packages[dep]) {
+              const version = dependents[dep];          
+              deps[dep] = version || "*";
+            }
+            
+            return deps;
+          }, {})
+        }
+      }
+      let tempJson = {}
+      if (dependents) {
+        tempJson = Object.assign(tempJson, tempFactory(dependents, 'dependencies'));
+      }
+      if (devDependents) {
+        tempJson = Object.assign(tempJson, tempFactory(devDependents, 'devDependencies'));
+      }
 
       fs.writeFileSync('package.json', JSON.stringify(tempJson));
 
