@@ -1,10 +1,11 @@
 {
-  "name": "monorepo",
+  "name": "onerepo",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "bin": {
-    "repo": "./bin/repo"
+    "repo": "./bin/repo",
+    "onerepo": "./bin/repo"
   },
   "engines": {
     "node": ">=6.4.0"

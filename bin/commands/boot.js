@@ -34,7 +34,9 @@ module.exports = function boot (config, args, flags, opts, cb) {
       const tempFactory = function(dependents, type) {
         return {
             [type]: Object.keys(dependents).reduce((deps, dep) => {
-            if (!config.packages[dep]) {
+            const dependency = new Package(config).setPackage(dep);
+            
+            if (!dependency) {
               const version = dependents[dep];          
               deps[dep] = version || "*";
             }
@@ -88,7 +90,7 @@ module.exports = function boot (config, args, flags, opts, cb) {
           
           if (actions.symlink) {
 
-            if (!fs.existsSync(`node_modules/${current.getScope()}`)) {
+            if (current.isPrivate() && !fs.existsSync(`node_modules/${current.getScope()}`)) {
               fs.mkdirSync(`node_modules/${current.getScope()}`);
             }
             // Symlink the current package folder
