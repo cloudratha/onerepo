@@ -45,6 +45,7 @@ module.exports = function publish (config, args, flags, opts, cb) {
   }, (err, results) => {
     // TODO Move to Async to run in parallel
     if (results) {
+      let tags = [];
       Object.keys(results).forEach( name => {
         const pack = new Package(config).setPackage(name);
         const version = results[name];
@@ -62,10 +63,21 @@ module.exports = function publish (config, args, flags, opts, cb) {
 
         // Reboot the package to create correct folder links
         process.chdir(opts.cwd);
-        execSync(`git tag ${name}@${version} -m "${name}@${version}"`);
-        execSync(`npm publish`);
+        
+        tags.push({
+          path: `${opts.cwd}/${pack.getPath()}`,
+          tag: `${name}@${version}`
+        });        
       });
 
+      if (tags.length) {
+        execSync(`git commit -m "Repo Version Bump"`);
+        tags.forEach(pack => {
+          execSync(`git tag ${pack.tag} -m "${pack.tag}"`);
+          process.chdir(`${tag.path}`);
+          execSync(`npm publish`);
+        });        
+      }
       if (!flags.boot) {
         execSync(`./bin/repo boot`);        
       }
