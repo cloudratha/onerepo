@@ -61,22 +61,30 @@ module.exports = function publish (config, args, flags, opts, cb) {
         pack.updateVersion(version);
         pack.writeJson();
         
+        // Stage changed files to git
+        process.chdir(opts.cwd);
+        execSync(`git add ${pack.getPath()}/package.json`);
+
         tags.push({
           path: pack.getPath(),
           tag: `${name}@${version}`
         });        
       });
 
-      if (tags.length) {
+      if (tags.length > 0) {
+        
         // Reboot the package to create correct folder links
         process.chdir(opts.cwd);
+
         execSync(`git commit -m "Repo Version Bump"`);
-        tags.forEach(pack => {
+        tags.forEach( pack => {
+
           execSync(`git tag ${pack.tag} -m "${pack.tag}"`);
-          process.chdir(`${pack.path}`);
+          process.chdir(pack.path);
           execSync(`npm publish`);
         });        
       }
+
       if (!flags.boot) {        
         process.chdir(opts.cwd);
         execSync(`repo boot`); // Assume its globally installed
