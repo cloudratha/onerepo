@@ -79,7 +79,7 @@ module.exports = function publish (config, args, flags, opts, cb) {
       }
       if (!flags.boot) {        
         process.chdir(opts.cwd);
-        execSync(`./bin/repo boot`);        
+        execSync(`repo boot`); // Assume its globally installed
       }
     }
 
