@@ -62,7 +62,7 @@ module.exports = function publish (config, args, flags, opts, cb) {
         pack.writeJson();
         
         tags.push({
-          path: `${opts.cwd}/${pack.getPath()}`,
+          path: pack.getPath(),
           tag: `${name}@${version}`
         });        
       });
