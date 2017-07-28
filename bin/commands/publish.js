@@ -60,9 +60,6 @@ module.exports = function publish (config, args, flags, opts, cb) {
         }
         pack.updateVersion(version);
         pack.writeJson();
-
-        // Reboot the package to create correct folder links
-        process.chdir(opts.cwd);
         
         tags.push({
           path: `${opts.cwd}/${pack.getPath()}`,
@@ -71,14 +68,17 @@ module.exports = function publish (config, args, flags, opts, cb) {
       });
 
       if (tags.length) {
+        // Reboot the package to create correct folder links
+        process.chdir(opts.cwd);
         execSync(`git commit -m "Repo Version Bump"`);
         tags.forEach(pack => {
           execSync(`git tag ${pack.tag} -m "${pack.tag}"`);
-          process.chdir(`${tag.path}`);
+          process.chdir(`${pack.path}`);
           execSync(`npm publish`);
         });        
       }
-      if (!flags.boot) {
+      if (!flags.boot) {        
+        process.chdir(opts.cwd);
         execSync(`./bin/repo boot`);        
       }
     }
