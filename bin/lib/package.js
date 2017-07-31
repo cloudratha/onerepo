@@ -49,6 +49,13 @@ module.exports = class Package {
 
     return false;
   }
+  getPeerDependencies() {
+    if (this.hasPeerDependencies()) {
+      return this.package.json.peerDependencies;      
+    }
+
+    return false;
+  }
   isPrivate() {
     return (this.getName().indexOf('@') !== -1);
   }
@@ -57,6 +64,9 @@ module.exports = class Package {
   }
   hasDevDependencies() {
     return (this.package.json.devDependencies);
+  }
+  hasPeerDependencies() {
+    return (this.package.json.peerDependencies);
   }
   hasDependant(name) {
     if (this.hasDependencies()) {
