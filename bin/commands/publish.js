@@ -21,9 +21,11 @@ module.exports = function publish (config, args, flags, opts, cb) {
     packagesToUpdate[name] = module;
   });
   
-  async.mapValuesLimit(packagesToUpdate, 1, function(module, name, callback) {
-    
-    let choices = [];
+  async.mapValuesLimit(packagesToUpdate, 1, function(module, name, callback) {    
+    let choices = [{
+      name: `Skip`,
+      value: false
+    }];
       versions.forEach( type => { 
         choices.push({
           name: `${type}: ${semver.inc(module.getVersion(), type)}`,
@@ -47,6 +49,10 @@ module.exports = function publish (config, args, flags, opts, cb) {
     if (results) {
       let tags = [];
       Object.keys(results).forEach( name => {
+        // User forced Skip
+        if (!results[name]) {
+          return;
+        }
         const pack = new Package(config).setPackage(name);
         const version = results[name];
         if (pack.hasDependencies()){
@@ -78,10 +84,13 @@ module.exports = function publish (config, args, flags, opts, cb) {
 
         execSync(`git commit -m "Repo Version Bump"`);
         tags.forEach( pack => {
-
-          execSync(`git tag ${pack.tag} -m "${pack.tag}"`);
+          if (!flags.git) { 
+            execSync(`git tag ${pack.tag} -m "${pack.tag}"`);
+          }
           process.chdir(pack.path);
-          execSync(`npm publish`);
+          if (!flags.npm) { 
+            execSync(`npm publish`);
+          }
         });        
       }
 

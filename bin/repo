@@ -9,6 +9,14 @@ const argv = require('yargs').options({
     default: true,
     type: 'boolean'
   },
+  npm: {
+    default: true,
+    type: 'boolean'    
+  },
+  git: {
+    default: true,
+    type: 'boolean'
+  }
 }).argv;
 const chalk = require('chalk');
 const commander = require('./lib/commander');

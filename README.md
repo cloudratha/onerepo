@@ -28,8 +28,7 @@ Create a `config.json` file in the root of the repo.
   "packages": [
     "collection-1/*",
     "collection-2/*"
-  ],
-  "scope": "username"
+  ]
 }
 ```
 
@@ -148,6 +147,20 @@ Will run the command in context of the specific package.
 When publishing you can add the flag to prevent re-booting the packages.
 ```bash
 repo publish --no-boot
+```
+
+### No-NPM (Publish Only)
+
+When publishing you can add the flag to prevent publishing to NPM.
+```bash
+repo publish --no-npm
+```
+
+### No-GIT (Publish Only)
+
+When publishing you can add the flag to prevent commiting to GIT.
+```bash
+repo publish --no-git
 ```
 
 ### Verbose

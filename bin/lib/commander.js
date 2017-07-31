@@ -32,6 +32,9 @@ module.exports = function repo (config, args, flags, opts, cb) {
       const localPaths = glob.sync(path, opts);
 
       localPaths.forEach( (folder) => {
+        if (!fs.existsSync(`${opts.cwd}/${folder}/package.json`)) {
+          return;
+        }
         localPackages[folder.split('/')[1]] = {      
           path: opts.cwd + '/' + folder,
           json: JSON.parse(fs.readFileSync(opts.cwd + '/' + folder + '/package.json', 'utf8'))
