@@ -35,9 +35,11 @@ module.exports = function repo (config, args, flags, opts, cb) {
         if (!fs.existsSync(`${opts.cwd}/${folder}/package.json`)) {
           return;
         }
-        localPackages[folder.split('/')[1]] = {      
+        const json = JSON.parse(fs.readFileSync(opts.cwd + '/' + folder + '/package.json', 'utf8'));
+        const name = (json.name.indexOf('/') > 0) ? json.split('/')[1] : json.name;
+        localPackages[name] = {      
           path: opts.cwd + '/' + folder,
-          json: JSON.parse(fs.readFileSync(opts.cwd + '/' + folder + '/package.json', 'utf8'))
+          json: json
         };
       });
     });
