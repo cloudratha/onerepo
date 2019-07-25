@@ -1,9 +1,17 @@
 Onerepo
 ===========================================
 
-One repo to rule them all, and in the webpack, bind them.
+**NB This experiement was a failure :(**
+
+One repo to rule them all, and in the npm, bind them.
 
 Using the monorepo strategy it allows a single source for all the individual packages, hosted with npm.
+
+Originally built to replace lerna, based off this issue https://github.com/lerna/lerna/issues/927.  
+I needed a tool that could manage multiple packages' dependencies, with strong lock-in rules.
+
+It's been some time since I deemed this a failure, but the main reason was around npm symlinking, which could possibly be fixed now.
+
 
 ## Requirements
 
