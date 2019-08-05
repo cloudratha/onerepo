@@ -22,7 +22,7 @@ Node >= 6.4.0
 Install as a global node dependency from git (instead of NPM).
 
 ```bash
-npm install -g git+ssh://git@github.com:pokelondon/onerepo.git
+npm install -g git+ssh://git@github.com:cloudratha/onerepo.git
 ```
 
 ### Usage
